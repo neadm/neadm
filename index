@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro e Consulta de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form, .consulta {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Dados</h1>
+    <form id="cadastroForm">
+        <label for="empresa">Empresa:</label>
+        <input type="text" id="empresa" required>
+
+        <label for="idMatricula">ID Matrícula:</label>
+        <input type="text" id="idMatricula" required>
+
+        <label for="pesNome">Nome da Pessoa:</label>
+        <input type="text" id="pesNome" required>
+
+        <label for="convenio">Convênio:</label>
+        <input type="text" id="convenio" required>
+
+        <label for="percentual">Percentual (%):</label>
+        <input type="number" id="percentual" min="0" max="100" required>
+
+        <label for="curNome">Curso:</label>
+        <input type="text" id="curNome" required>
+
+        <label for="funcMatricula">Funcionário que realizou a matrícula:</label>
+        <input type="text" id="funcMatricula" required>
+
+        <label for="status">Status:</label>
+        <select id="status" required>
+            <option value="Ativo">Ativo</option>
+            <option value="Inativo">Inativo</option>
+        </select>
+
+        <button type="button" onclick="cadastrar()">Cadastrar</button>
+    </form>
+
+    <h2>Consulta de Dados</h2>
+    <div class="consulta">
+        <table id="tabelaConsulta">
+            <thead>
+                <tr>
+                    <th>Empresa</th>
+                    <th>ID Matrícula</th>
+                    <th>Nome</th>
+                    <th>Convênio</th>
+                    <th>Percentual</th>
+                    <th>Curso</th>
+                    <th>Funcionário</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dados serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const dados = [];
+
+        function cadastrar() {
+            // Obter os valores do formulário
+            const empresa = document.getElementById('empresa').value;
+            const idMatricula = document.getElementById('idMatricula').value;
+            const pesNome = document.getElementById('pesNome').value;
+            const convenio = document.getElementById('convenio').value;
+            const percentual = document.getElementById('percentual').value;
+            const curNome = document.getElementById('curNome').value;
+            const funcMatricula = document.getElementById('funcMatricula').value;
+            const status = document.getElementById('status').value;
+
+            if (!empresa || !idMatricula || !pesNome || !convenio || !percentual || !curNome || !funcMatricula || !status) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            // Criar objeto de dados
+            const novoDado = {
+                empresa,
+                idMatricula,
+                pesNome,
+                convenio,
+                percentual,
+                curNome,
+                funcMatricula,
+                status
+            };
+
+            // Adicionar ao array
+            dados.push(novoDado);
+
+            // Atualizar tabela
+            atualizarTabela();
+
+            // Limpar o formulário
+            document.getElementById('cadastroForm').reset();
+        }
+
+        function atualizarTabela() {
+            const tbody = document.getElementById('tabelaConsulta').querySelector('tbody');
+            tbody.innerHTML = ''; // Limpar a tabela
+
+            dados.forEach(dado => {
+                const tr = document.createElement('tr');
+
+                Object.values(dado).forEach(valor => {
+                    const td = document.createElement('td');
+                    td.textContent = valor;
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
